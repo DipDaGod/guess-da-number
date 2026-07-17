@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guess Protocol — Human vs AI</title>
+  <style>
+    :root { --bg:#070916; --surface:#12162b; --surface-2:#191f3d; --line:rgba(185,198,255,.16); --text:#f7f8ff; --muted:#aab3d6; --cyan:#57e6ff; --violet:#a884ff; --green:#74efad; --danger:#ff7aa8; }
+    * { box-sizing:border-box; }
+    body { min-height:100vh; margin:0; overflow-x:hidden; color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:radial-gradient(circle at 12% 0%,rgba(87,230,255,.16),transparent 27rem),radial-gradient(circle at 93% 72%,rgba(168,132,255,.17),transparent 32rem),var(--bg); }
+    body::before { content:""; position:fixed; inset:0; z-index:-1; opacity:.25; background-image:linear-gradient(rgba(151,170,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(151,170,255,.09) 1px,transparent 1px); background-size:40px 40px; mask-image:linear-gradient(to bottom,black,transparent 78%); }
+    button,input { font:inherit; }
+    button { cursor:pointer; transition:transform .16s ease,filter .16s ease,box-shadow .16s ease,border-color .16s ease; }
+    button:not(:disabled):hover { transform:translateY(-2px); filter:brightness(1.08); }
+    button:not(:disabled):active { transform:translateY(1px) scale(.97); filter:brightness(.93); }
+    button:disabled { cursor:not-allowed; opacity:.44; }
+    .app { width:min(1120px,calc(100% - 32px)); margin:auto; padding:26px 0 52px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:11px; font-size:.82rem; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
+    .brand-icon { display:grid; place-items:center; width:37px; height:37px; border:1px solid var(--cyan); border-radius:11px; color:var(--cyan); font-size:1.25rem; box-shadow:0 0 26px rgba(87,230,255,.35); }
+    .live { display:flex; align-items:center; gap:8px; color:var(--green); font-size:.84rem; font-weight:700; }
+    .live::before { content:""; width:8px; height:8px; border-radius:99px; background:currentColor; box-shadow:0 0 12px currentColor; }
+    .hero { max-width:730px; margin:55px auto 28px; text-align:center; }
+    .eyebrow { color:var(--cyan); font-size:.75rem; font-weight:900; letter-spacing:.21em; text-transform:uppercase; }
+    h1 { margin:12px 0; font-size:clamp(2.5rem,7vw,5.4rem); letter-spacing:-.075em; line-height:.88; }
+    h1 em { color:var(--cyan); font-style:normal; text-shadow:0 0 35px rgba(87,230,255,.5); }
+    .hero p { margin:0; color:var(--muted); line-height:1.65; }
+    .setup { display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center; margin:27px auto; padding:18px 20px; border:1px solid var(--line); border-radius:18px; background:linear-gradient(120deg,rgba(87,230,255,.08),rgba(168,132,255,.1)); box-shadow:0 18px 50px rgba(0,0,0,.2); }
+    .setup-copy strong { display:block; margin-bottom:4px; }
+    .setup-copy span { color:var(--muted); font-size:.89rem; }
+    .input-row { display:flex; gap:9px; }
+    input { min-width:0; width:100%; border:1px solid var(--line); border-radius:11px; padding:12px 13px; outline:0; color:var(--text); background:#0b0e20; }
+    input[type="number"] { appearance:textfield; -moz-appearance:textfield; }
+    input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { margin:0; appearance:none; -webkit-appearance:none; }
+    input:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(87,230,255,.13); }
+    .primary { border:0; border-radius:11px; padding:12px 16px; color:#06151a; background:var(--cyan); font-weight:900; white-space:nowrap; box-shadow:0 8px 20px rgba(87,230,255,.2); }
+    .primary:not(:disabled):hover { box-shadow:0 11px 27px rgba(87,230,255,.38); }
+    .game-board { display:grid; grid-template-columns:1fr 72px 1fr; align-items:stretch; gap:18px; }
+    .card { position:relative; padding:27px; overflow:hidden; border:1px solid var(--line); border-radius:22px; background:linear-gradient(145deg,rgba(28,34,66,.88),rgba(14,17,38,.84)); box-shadow:0 25px 60px rgba(0,0,0,.24); }
+    .card::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(135deg,rgba(255,255,255,.07),transparent 30%); }
+    .player-card { border-top:2px solid var(--cyan); }
+    .ai-card { border-top:2px solid var(--violet); }
+    .kicker { margin:0 0 8px; color:var(--muted); font-size:.72rem; font-weight:900; letter-spacing:.15em; text-transform:uppercase; }
+    h2 { position:relative; margin:0; font-size:1.6rem; letter-spacing:-.04em; }
+    .range { position:relative; margin:23px 0; padding:13px 14px; border:1px solid rgba(185,198,255,.1); border-radius:12px; color:var(--muted); background:rgba(4,7,20,.32); font-size:.9rem; }
+    .range strong { color:var(--text); }
+    label { position:relative; display:block; margin-bottom:8px; color:var(--muted); font-size:.85rem; }
+    .hint { position:relative; margin:15px 0 0; color:var(--muted); font-size:.84rem; line-height:1.45; }
+    .orb { position:relative; display:grid; place-items:center; width:112px; aspect-ratio:1; margin:14px auto 9px; border:1px solid rgba(168,132,255,.5); border-radius:50%; color:#e5dcff; background:radial-gradient(circle at 35% 30%,rgba(214,193,255,.62),rgba(120,79,223,.26) 33%,rgba(28,21,70,.2) 70%); font-size:2.6rem; font-weight:950; box-shadow:0 0 50px rgba(168,132,255,.28),inset 0 0 30px rgba(255,255,255,.12); }
+    .orb-label { position:relative; margin:0 0 17px; color:var(--muted); text-align:center; font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
+    .feedback { position:relative; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .feedback button,.difficulty button { border:1px solid var(--line); border-radius:10px; padding:10px 6px; color:var(--text); background:rgba(78,90,145,.18); font-size:.78rem; font-weight:800; }
+    .feedback button[data-feedback="h"]:not(:disabled):hover { border-color:var(--green); color:var(--green); }
+    .feedback button[data-feedback="l"]:not(:disabled):hover { border-color:var(--cyan); color:var(--cyan); }
+    .feedback button[data-feedback="correct"]:not(:disabled) { color:#220b19; background:var(--danger); border-color:var(--danger); }
+    .versus { display:grid; place-items:center; align-self:center; width:64px; height:64px; border:1px solid var(--line); border-radius:50%; color:var(--danger); background:#11162e; font-size:.84rem; font-weight:950; font-style:italic; box-shadow:0 0 32px rgba(255,122,168,.15); }
+    .dashboard { display:grid; grid-template-columns:1.3fr .7fr; gap:18px; margin-top:18px; }
+    .panel { padding:20px 22px; border:1px solid var(--line); border-radius:17px; background:rgba(16,20,45,.76); }
+    .panel-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; font-size:.96rem; font-weight:850; }
+    .round { color:var(--cyan); font-size:.78rem; }
+    .meter { height:10px; overflow:hidden; border-radius:99px; background:#282d51; }
+    .meter > div { width:0%; height:100%; border-radius:inherit; background:linear-gradient(90deg,var(--violet),var(--cyan)); transition:width .25s ease; }
+    .stats { display:flex; justify-content:space-between; gap:10px; margin-top:10px; color:var(--muted); font-size:.82rem; }
+    .difficulty { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
+    .difficulty button.active { border-color:var(--cyan); color:#04161b; background:var(--cyan); box-shadow:0 0 20px rgba(87,230,255,.25); }
+    .message { min-height:48px; margin-top:18px; padding:14px 18px; border:1px solid rgba(87,230,255,.18); border-radius:14px; color:#dbe2ff; background:rgba(87,230,255,.055); line-height:1.45; }
+    .result-overlay { position:fixed; inset:0; z-index:10; display:grid; place-items:center; padding:20px; opacity:0; pointer-events:none; background:rgba(4,6,17,.73); backdrop-filter:blur(8px); transition:opacity .28s ease; }
+    .result-overlay.show { opacity:1; pointer-events:auto; }
+    .result-card { width:min(420px,100%); padding:34px 30px; border:1px solid var(--line); border-radius:26px; text-align:center; background:linear-gradient(145deg,#20295a,#0e1129); box-shadow:0 35px 90px rgba(0,0,0,.55); transform:scale(.88) translateY(16px); transition:transform .36s cubic-bezier(.2,.8,.2,1); }
+    .result-overlay.show .result-card { transform:scale(1) translateY(0); }
+    .result-icon { display:grid; place-items:center; width:84px; aspect-ratio:1; margin:0 auto 17px; border-radius:50%; font-size:2.5rem; font-weight:900; }
+    .result-overlay.win .result-icon { color:#09301c; background:var(--green); box-shadow:0 0 44px rgba(116,239,173,.55); }
+    .result-overlay.loss .result-icon { color:#3a071b; background:var(--danger); box-shadow:0 0 44px rgba(255,122,168,.45); }
+    .result-card h2 { font-size:2rem; }
+    .result-card p { color:var(--muted); line-height:1.55; }
+    .result-card button { margin-top:8px; }
+    .burst { position:fixed; z-index:11; width:9px; height:16px; border-radius:4px; pointer-events:none; animation:confetti 1.25s ease-out forwards; }
+    @keyframes confetti { from { transform:translate(var(--x),var(--y)) rotate(0); opacity:1; } to { transform:translate(calc(var(--x) + var(--dx)),calc(var(--y) + 230px)) rotate(560deg); opacity:0; } }
+    @media (max-width:760px) { .hero { margin-top:38px; } .setup,.game-board,.dashboard { grid-template-columns:1fr; } .setup { gap:14px; } .versus { justify-self:center; margin:-3px 0; } .card { padding:23px; } .input-row { width:100%; } }
+    @media (max-width:450px) { .app { width:min(100% - 22px,1120px); } header .live { font-size:.72rem; } .difficulty { grid-template-columns:repeat(2,1fr); } .stats { flex-direction:column; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header><div class="brand"><span class="brand-icon">#</span> Guess Protocol</div><div class="live" id="status">Ready to race</div></header>
+    <section class="hero"><div class="eyebrow">Human vs adaptive AI</div><h1>Guess first.<br><em>Win.</em></h1><p>Lock in a secret number the AI cannot see. It will only learn from your verified higher, lower, or correct answers.</p></section>
+    <section class="setup" aria-label="Secret number setup">
+      <div class="setup-copy"><strong>Lock your secret number</strong><span id="lock-helper">Choose a private number from 1 to 100. It stays in this browser.</span></div>
+      <div class="input-row"><input id="secret-number" class="number-only" type="number" inputmode="numeric" min="1" max="100" placeholder="Your secret" aria-label="Your secret number"><button class="primary" id="lock-button" type="button">Lock number</button></div>
+    </section>
+    <section class="game-board" aria-label="Number guessing race">
+      <article class="card player-card"><p class="kicker">Your turn</p><h2>Find the AI's number</h2><div class="range">Your known range <strong id="player-range">1 – 100</strong></div><label for="player-guess">Enter a guess</label><div class="input-row"><input id="player-guess" class="number-only" type="number" inputmode="numeric" min="1" max="100" placeholder="e.g. 42" disabled><button class="primary" id="guess-button" type="button" disabled>Guess</button></div><p class="hint">The AI will respond with a truthful higher or lower clue.</p></article>
+      <div class="versus" aria-hidden="true">VS</div>
+      <article class="card ai-card"><p class="kicker">AI turn</p><h2>Protect your secret</h2><div class="orb" id="ai-guess">?</div><p class="orb-label">AI's current guess</p><div class="feedback"><button data-feedback="higher" type="button" disabled>Higher</button><button data-feedback="lower" type="button" disabled>Lower</button><button data-feedback="correct" type="button" disabled>Correct</button></div><p class="hint">Feedback is checked against your locked number—no bluffing.</p></article>
+    </section>
+    <section class="dashboard"><article class="panel"><div class="panel-title">AI knowledge <span class="round" id="round-display">Round 1 / 10</span></div><div class="meter"><div id="knowledge-meter"></div></div><div class="stats"><span id="remaining">100 possible numbers remaining</span><span id="eliminated">0% eliminated</span></div></article><article class="panel"><div class="panel-title">Difficulty</div><div class="difficulty"><button data-difficulty="easy" type="button">Easy</button><button data-difficulty="medium" type="button" class="active">Medium</button><button data-difficulty="hard" type="button">Hard</button><button data-difficulty="expert" type="button">Expert</button></div></article></section>
+    <div class="message" id="message" role="status">Choose a difficulty, then lock your secret number to begin.</div>
+  </main>
+  <div class="result-overlay" id="result-overlay" aria-live="assertive"><section class="result-card"><div class="result-icon" id="result-icon">★</div><h2 id="result-title">You win!</h2><p id="result-text"></p><button class="primary" id="play-again" type="button">Play again</button></section></div>
+  <script>
+    // Game engine supplied by you, formatted for the website.
+    const DIFFICULTIES = { easy:{name:"Easy",maxNumber:50,maxRounds:12,strategy:"easy"}, medium:{name:"Medium",maxNumber:100,maxRounds:10,strategy:"binary"}, hard:{name:"Hard",maxNumber:100,maxRounds:8,strategy:"human"}, expert:{name:"Expert",maxNumber:100,maxRounds:7,strategy:"expert"} };
+    let currentDifficulty = null, maxNumber = 100, maxRounds = 10, roundNumber = 1, computerSecret = null, gameOver = false, playerLow = 1, playerHigh = 100, playerGuesses = [], aiLow = 1, aiHigh = 100, aiGuess = null, aiGuesses = [], lockedPlayerNumber = null, isPlayerNumberLocked = false;
+    const humanFavorites = {3:2.5,7:5,13:3,21:2.5,23:2.5,27:2,37:3,42:5,50:2.5,69:5,73:3,77:3,99:2};
+    function randomInt(min,max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function startGame(key) { const difficulty = DIFFICULTIES[key]; if (!difficulty) return {success:false,message:"Invalid difficulty."}; currentDifficulty=difficulty; maxNumber=difficulty.maxNumber; maxRounds=difficulty.maxRounds; computerSecret=randomInt(1,maxNumber); roundNumber=1; gameOver=false; playerLow=1; playerHigh=maxNumber; playerGuesses=[]; aiLow=1; aiHigh=maxNumber; aiGuess=null; aiGuesses=[]; lockedPlayerNumber=null; isPlayerNumberLocked=false; return {success:true,difficulty:difficulty.name,maxNumber,maxRounds}; }
+    function lockPlayerNumber(value) { if (!currentDifficulty) return {success:false,message:"Start the game first."}; if (isPlayerNumberLocked) return {success:false,message:"Your number is already locked."}; const number=Number(value); if (!Number.isInteger(number) || number<1 || number>maxNumber) return {success:false,message:`Choose a number between 1 and ${maxNumber}.`}; lockedPlayerNumber=number; isPlayerNumberLocked=true; return {success:true,message:"Your secret number has been locked."}; }
+    function makePlayerGuess(value) { if (gameOver) return {valid:false,message:"The game is already over."}; if (!isPlayerNumberLocked) return {valid:false,message:"Lock your number first."}; const guess=Number(value); if (!Number.isInteger(guess) || guess<1 || guess>maxNumber) return {valid:false,message:`Guess between 1 and ${maxNumber}.`}; playerGuesses.push(guess); if (guess===computerSecret) { gameOver=true; return {valid:true,correct:true,winner:"player",guess,rounds:roundNumber}; } if (guess<computerSecret) { playerLow=Math.max(playerLow,guess+1); return {valid:true,correct:false,direction:"higher",low:playerLow,high:playerHigh}; } playerHigh=Math.min(playerHigh,guess-1); return {valid:true,correct:false,direction:"lower",low:playerLow,high:playerHigh}; }
+    function easyAi() { return randomInt(aiLow,aiHigh); }
+    function binaryAi() { return Math.floor((aiLow+aiHigh)/2); }
+    function getHumanScore(number) { let score=humanFavorites[number] || 1; if(number%2!==0) score*=1.15; if(number%5===0) score*=1.4; if(number>=11 && number<=99 && number%11===0) score*=1.5; return score; }
+    function humanAi() { let best=aiLow,bestScore=-Infinity,middle=(aiLow+aiHigh)/2; for(let number=aiLow;number<=aiHigh;number++){let score=getHumanScore(number)-.001*Math.abs(number-middle);if(score>bestScore){bestScore=score;best=number;}} return best; }
+    function expertAi() { let best=aiLow,bestScore=-Infinity,total=aiHigh-aiLow+1; for(let number=aiLow;number<=aiHigh;number++){const lower=number-aiLow,higher=aiHigh-number,score=5*(1-Math.max(lower,higher)/total)+getHumanScore(number);if(score>bestScore){bestScore=score;best=number;}} return best; }
+    function makeAiGuess() { if (gameOver) return {success:false,message:"The game is already over."}; if (!isPlayerNumberLocked) return {success:false,message:"Player number is not locked."}; if (aiLow>aiHigh) return {success:false,message:"No possible numbers remain."}; switch(currentDifficulty.strategy){case"easy":aiGuess=easyAi();break;case"human":aiGuess=humanAi();break;case"expert":aiGuess=expertAi();break;case"binary":default:aiGuess=binaryAi();} aiGuesses.push(aiGuess); return {success:true,guess:aiGuess,low:aiLow,high:aiHigh,remaining:aiHigh-aiLow+1}; }
+    function validatePlayerFeedback(guess,feedback) { if (!isPlayerNumberLocked) return {valid:false}; const expected=guess<lockedPlayerNumber?"higher":guess>lockedPlayerNumber?"lower":"correct"; return {valid:feedback===expected}; }
+    function giveAiFeedback(feedback) { if(gameOver) return {valid:false,message:"The game is already over."}; if(aiGuess===null) return {valid:false,message:"AI has not guessed yet."}; feedback=feedback.toLowerCase(); if(!["higher","lower","correct"].includes(feedback)) return {valid:false,message:"Invalid feedback."}; if(!validatePlayerFeedback(aiGuess,feedback).valid) return {valid:false,dishonest:true,message:"That answer does not match your locked number."}; if(feedback==="correct"){gameOver=true;return {valid:true,correct:true,winner:"ai",guess:aiGuess,rounds:roundNumber};} if(feedback==="higher") aiLow=Math.max(aiLow,aiGuess+1); else aiHigh=Math.min(aiHigh,aiGuess-1); if(aiLow>aiHigh) return {valid:false,contradiction:true,message:"Invalid AI range."}; return {valid:true,correct:false,direction:feedback,low:aiLow,high:aiHigh,remaining:aiHigh-aiLow+1}; }
+    function nextRound() { if(gameOver) return {success:false,message:"Game is over."}; roundNumber++; if(roundNumber>maxRounds){gameOver=true;return {success:false,draw:true,message:"Maximum rounds reached."};} aiGuess=null; return {success:true,round:roundNumber,roundsLeft:maxRounds-roundNumber+1}; }
+    function getGameState() { return {difficulty:currentDifficulty?currentDifficulty.name:null,round:roundNumber,maxRounds,maxNumber,gameOver,numberLocked:isPlayerNumberLocked,player:{low:playerLow,high:playerHigh,guesses:[...playerGuesses]},ai:{low:aiLow,high:aiHigh,remaining:Math.max(0,aiHigh-aiLow+1),lastGuess:aiGuess,guesses:[...aiGuesses]}}; }
+
+    const $ = (selector) => document.querySelector(selector);
+    const feedbackButtons = [...document.querySelectorAll("[data-feedback]")];
+    const difficultyButtons = [...document.querySelectorAll("[data-difficulty]")];
+    function setMessage(text) { $("#message").textContent = text; }
+    function updateUi() { const state=getGameState(), eliminated=Math.round((1-state.ai.remaining/maxNumber)*100); $("#player-range").textContent=`${state.player.low} – ${state.player.high}`; $("#remaining").textContent=`${state.ai.remaining} possible number${state.ai.remaining===1?"":"s"} remaining`; $("#eliminated").textContent=`${eliminated}% eliminated`; $("#knowledge-meter").style.width=`${eliminated}%`; $("#round-display").textContent=`Round ${state.round} / ${state.maxRounds}`; $("#player-guess").max=maxNumber; $("#secret-number").max=maxNumber; $("#lock-helper").textContent=`Choose a private number from 1 to ${maxNumber}. It stays in this browser.`; }
+    function setPlaying(enabled) { $("#player-guess").disabled=!enabled; $("#guess-button").disabled=!enabled; feedbackButtons.forEach(button=>button.disabled=true); }
+    function resetUi(key) { const result=startGame(key); difficultyButtons.forEach(button=>button.classList.toggle("active",button.dataset.difficulty===key)); $("#secret-number").value=""; $("#secret-number").disabled=false; $("#lock-button").disabled=false; $("#lock-button").textContent="Lock number"; $("#player-guess").value=""; $("#ai-guess").textContent="?"; $("#status").textContent=`${result.difficulty} · Setup`; setPlaying(false); updateUi(); setMessage(`Selected ${result.difficulty}. Lock your secret number to start the race.`); $("#secret-number").focus(); }
+    function celebrate() { const colors=["#57e6ff","#a884ff","#74efad","#ff7aa8","#ffe278"]; for(let i=0;i<46;i++){const piece=document.createElement("i");piece.className="burst";piece.style.background=colors[i%colors.length];piece.style.left="50%";piece.style.top="35%";piece.style.setProperty("--x",`${(Math.random()-.5)*160}px`);piece.style.setProperty("--y",`${(Math.random()-.5)*60}px`);piece.style.setProperty("--dx",`${(Math.random()-.5)*520}px`);document.body.append(piece);setTimeout(()=>piece.remove(),1300);} }
+    function showResult(title,text,won) { const overlay=$("#result-overlay"); overlay.className=`result-overlay show ${won?"win":"loss"}`; $("#result-icon").textContent=won?"★":"!"; $("#result-title").textContent=title; $("#result-text").textContent=text; if(won) celebrate(); }
+    function finish(message,won=false) { setPlaying(false); $("#status").textContent="Race complete"; setMessage(`${message} Pick a difficulty to play again.`); showResult(won?"You won!":"AI wins",message,won); }
+    function lockSecret() { const result=lockPlayerNumber($("#secret-number").value); if(!result.success){setMessage(result.message);return;} $("#secret-number").disabled=true; $("#lock-button").disabled=true; $("#lock-button").textContent="Locked ✓"; $("#status").textContent=`${currentDifficulty.name} · Round 1 / ${maxRounds}`; setPlaying(true); setMessage("Secret locked. Make a guess to begin the race."); $("#player-guess").focus(); }
+    function playerTurn() { const result=makePlayerGuess($("#player-guess").value); if(!result.valid){setMessage(result.message);return;} $("#player-guess").value=""; if(result.correct){finish(`The AI's secret number was ${result.guess}. You cracked it in ${result.rounds} rounds.`,true);return;} const aiResult=makeAiGuess(); $("#ai-guess").textContent=aiResult.guess; feedbackButtons.forEach(button=>button.disabled=false); $("#player-guess").disabled=true; $("#guess-button").disabled=true; updateUi(); setMessage(`The AI's number is ${result.direction} than ${playerGuesses.at(-1)}. Now answer its guess.`); }
+    function respondToAi(feedback) { const result=giveAiFeedback(feedback); if(!result.valid){setMessage(result.message);return;} feedbackButtons.forEach(button=>button.disabled=true); if(result.correct){finish(`The AI found your secret number (${result.guess}) in ${result.rounds} rounds.`);return;} const next=nextRound(); updateUi(); if(next.draw){finish(`It's a draw. Nobody found the other number in ${maxRounds} rounds. The AI's number was ${computerSecret}.`);return;} $("#status").textContent=`${currentDifficulty.name} · Round ${next.round} / ${maxRounds}`; $("#ai-guess").textContent="?"; $("#player-guess").disabled=false; $("#guess-button").disabled=false; setMessage(`AI learned your number is ${result.direction} than ${aiGuesses.at(-1)}. Your turn for round ${next.round}.`); $("#player-guess").focus(); }
+    function keepDigits(event) { const input=event.target; let value=input.value.replace(/\D/g,""); if(value && Number(value)>maxNumber) value=input.dataset.lastValid || ""; input.value=value; input.dataset.lastValid=value; }
+    document.querySelectorAll(".number-only").forEach(input=>{input.addEventListener("input",keepDigits);input.addEventListener("keydown",event=>{if(["e","E","+","-","."].includes(event.key))event.preventDefault();});});
+    $("#lock-button").addEventListener("click",lockSecret); $("#secret-number").addEventListener("keydown",event=>{if(event.key==="Enter")lockSecret();}); $("#guess-button").addEventListener("click",playerTurn); $("#player-guess").addEventListener("keydown",event=>{if(event.key==="Enter")playerTurn();}); feedbackButtons.forEach(button=>button.addEventListener("click",()=>respondToAi(button.dataset.feedback))); difficultyButtons.forEach(button=>button.addEventListener("click",()=>resetUi(button.dataset.difficulty))); $("#play-again").addEventListener("click",()=>{$("#result-overlay").className="result-overlay";resetUi(currentDifficulty ? Object.keys(DIFFICULTIES).find(key=>DIFFICULTIES[key]===currentDifficulty) : "medium");}); resetUi("medium");
+  </script>
+</body>
+</html>
