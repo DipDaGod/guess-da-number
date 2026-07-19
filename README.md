@@ -2,7 +2,7 @@
 
 Guess Protocol is a browser-based number guessing race where you compete against an adaptive AI. It gives players a quick, fair, and satisfying way to test their deduction skills while the AI tries to uncover their secret number first.
 
-🔗 [Play Guess Protocol](./index.html)
+🔗 [Play Guess Protocol](https://dipdagod.github.io/guess-da-number/index.html)
 
 ## Features
 
