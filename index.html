@@ -51,7 +51,6 @@
     h1 { margin:0 0 12px; font-family:Georgia,"Times New Roman",serif; font-size:clamp(2.35rem,6vw,4.35rem); letter-spacing:-.035em; line-height:.95; text-wrap:balance; }
     h1 em { color:var(--cyan); font-style:normal; }
     .hero p { margin:0; color:var(--muted); line-height:1.65; }
-
     .setup-wizard { margin:27px auto; }
     .playing .setup-wizard { display:none; }
     .wizard-steps { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
@@ -70,7 +69,6 @@
     .difficulty-desc { margin:12px 0 16px; color:var(--muted); font-size:.86rem; line-height:1.5; min-height:1.5em; }
     .start-panel { text-align:center; }
     .start-panel p { color:var(--muted); margin:0 0 18px; }
-
     .setup-panel { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:16px; }
     .setup-copy { flex:1 1 220px; }
     .setup-panel.locked { border-color:var(--green); box-shadow:0 0 0 3px rgba(116,239,173,.16),0 0 26px rgba(116,239,173,.22); animation:lock-pulse .5s cubic-bezier(.2,.8,.2,1); }
@@ -99,7 +97,6 @@
     @keyframes seal-flash { 0% { transform:scale(1); } 45% { transform:scale(1.03); } 100% { transform:scale(1); } }
     .mini-burst { position:fixed; z-index:12; width:6px; height:11px; border-radius:3px; pointer-events:none; animation:mini-confetti .75s ease-out forwards; }
     @keyframes mini-confetti { from { transform:translate(0,0) rotate(0); opacity:1; } to { transform:translate(var(--dx),var(--dy)) rotate(360deg); opacity:0; } }
-
     .game-board { display:grid; grid-template-columns:1fr 72px 1fr; align-items:stretch; gap:18px; }
     .playing .game-board { animation:game-ready .32s cubic-bezier(.2,.8,.2,1) both; }
     .card { position:relative; padding:25px; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease,border-color .3s ease,background .3s ease; }
@@ -129,11 +126,9 @@
     .feedback button[data-feedback="lower"]:not(:disabled):hover { border-color:var(--cyan); color:var(--cyan); }
     .feedback button[data-feedback="correct"]:not(:disabled) { color:#220b19; background:var(--danger); border-color:var(--danger); }
     .versus { display:grid; place-items:center; align-self:center; width:48px; height:48px; border:1px solid var(--line); border-radius:50%; color:var(--muted); background:var(--bg); font-size:.74rem; font-weight:950; font-style:italic; }
-
     .range-bar { position:relative; height:10px; border-radius:99px; background:var(--track-bg); overflow:hidden; margin-top:10px; }
     .range-bar-fill { position:absolute; top:0; bottom:0; left:0; width:100%; border-radius:99px; background:linear-gradient(90deg,var(--cyan),var(--violet)); transition:left .3s cubic-bezier(.2,.8,.2,1),width .3s cubic-bezier(.2,.8,.2,1); }
     .range-bar-scale { display:flex; justify-content:space-between; margin-top:4px; color:var(--muted); font-size:.7rem; }
-
     .history { margin-top:14px; max-height:136px; overflow-y:auto; border:1px solid var(--chip-border); border-radius:10px; background:var(--chip-bg); }
     .history-empty { margin:0; padding:14px 12px; color:var(--muted); font-size:.8rem; text-align:center; }
     .history-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 12px; font-size:.82rem; border-bottom:1px solid var(--chip-border); animation:fade-slide-in .3s cubic-bezier(.2,.8,.2,1) both; }
@@ -145,23 +140,19 @@
     .history-tag.lower { color:var(--cyan); background:rgba(87,230,255,.14); }
     .history-tag.correct { color:#220b19; background:var(--danger); }
     .history-verified { color:var(--muted); font-size:.7rem; white-space:nowrap; }
-
     .dashboard { display:grid; grid-template-columns:1fr; gap:18px; margin-top:18px; }
     .panel { padding:19px 21px; border:1px solid var(--line); border-radius:14px; background:var(--surface); transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease; }
     .panel:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(4,6,20,.24); }
     .panel-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px; font-size:.96rem; font-weight:850; }
     .round { color:var(--cyan); font-size:.78rem; }
     .stats { display:flex; justify-content:space-between; gap:10px; margin-top:10px; color:var(--muted); font-size:.82rem; }
-
     .difficulty { position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:7px; padding:4px; border-radius:13px; background:var(--chip-bg); border:1px solid var(--chip-border); }
     .difficulty-pill { position:absolute; top:4px; left:4px; height:calc(100% - 8px); width:0; border-radius:9px; background:var(--cyan); box-shadow:0 4px 14px rgba(2,132,199,.35); transition:transform .38s cubic-bezier(.2,.8,.2,1),width .38s cubic-bezier(.2,.8,.2,1); z-index:0; pointer-events:none; }
     .difficulty button { position:relative; z-index:1; background:transparent; border-color:transparent; }
     .difficulty button:not(.active):hover { background:rgba(2,132,199,.1); }
     .difficulty button.active { color:#04161b; background:transparent; }
-
     .theme-transition { position:fixed; inset:0; z-index:999; pointer-events:none; opacity:0; clip-path:circle(0px at 50% 50%); }
     .message { min-height:48px; margin-top:18px; padding:14px 18px; border:1px solid rgba(87,230,255,.18); border-radius:14px; color:var(--text); background:rgba(87,230,255,.055); line-height:1.45; transition:background .3s ease,border-color .3s ease; }
-
     .result-overlay { position:fixed; inset:0; z-index:10; display:grid; place-items:center; padding:20px; opacity:0; pointer-events:none; background:rgba(4,6,17,.73); backdrop-filter:blur(8px); transition:opacity .28s ease; }
     .result-overlay.show { opacity:1; pointer-events:auto; }
     .result-card { width:min(420px,100%); padding:34px 30px; border:1px solid var(--line); border-radius:16px; text-align:center; background:var(--surface-2); transform:scale(.88) translateY(16px); transition:transform .36s cubic-bezier(.2,.8,.2,1); }
@@ -182,34 +173,13 @@
     .confirm-actions button { flex:1; }
     .ghost-button { border:1px solid var(--line); border-radius:9px; padding:12px 16px; color:var(--text); background:transparent; font-weight:800; }
     .ghost-button:not(:disabled):hover { border-color:var(--muted); }
-
-    .theme-modal-overlay { position:fixed; inset:0; z-index:30; display:grid; place-items:center; padding:20px; opacity:0; pointer-events:none; background:rgba(4,6,17,.78); backdrop-filter:blur(8px); transition:opacity .25s ease; }
-    .theme-modal-overlay.show { opacity:1; pointer-events:auto; }
-    .theme-modal-card { width:min(430px,100%); padding:30px 26px 26px; border:1px solid var(--line); border-radius:18px; text-align:center; background:var(--surface-2); transform:scale(.92) translateY(12px); transition:transform .32s cubic-bezier(.2,.8,.2,1); }
-    .theme-modal-overlay.show .theme-modal-card { transform:scale(1) translateY(0); }
-    .theme-modal-card h3 { margin:0 0 8px; font-size:1.35rem; letter-spacing:-.02em; }
-    .theme-modal-card > p { margin:0 0 20px; color:var(--muted); font-size:.88rem; line-height:1.5; }
-    .theme-options { display:flex; gap:14px; justify-content:center; margin-bottom:20px; }
-    .theme-option { display:flex; flex-direction:column; align-items:center; gap:9px; padding:12px; border:1px solid var(--line); border-radius:14px; background:transparent; color:var(--text); font-weight:800; font-size:.85rem; width:140px; }
-    .theme-option:not(:disabled):hover { border-color:var(--cyan); }
-    .theme-swatch { position:relative; width:100%; height:74px; border-radius:10px; overflow:hidden; border:1px solid var(--line); }
-    .swatch-dark { background:#070916; }
-    .swatch-light { background:#f4f6fc; }
-    .swatch-chip { position:absolute; border-radius:6px; }
-    .swatch-dark .chip-a { top:10px; left:10px; width:48px; height:12px; background:#57e6ff; opacity:.85; }
-    .swatch-dark .chip-b { bottom:10px; left:10px; right:10px; height:22px; background:#191f3d; border:1px solid rgba(185,198,255,.25); }
-    .swatch-light .chip-a { top:10px; left:10px; width:48px; height:12px; background:#0284c7; opacity:.85; }
-    .swatch-light .chip-b { bottom:10px; left:10px; right:10px; height:22px; background:#ffffff; border:1px solid rgba(23,32,64,.15); }
-    .theme-remember { display:flex; align-items:center; justify-content:center; gap:8px; color:var(--muted); font-size:.85rem; cursor:pointer; }
-    .theme-remember input { width:16px; height:16px; accent-color:var(--cyan); }
-
     .burst { position:fixed; z-index:11; width:9px; height:16px; border-radius:4px; pointer-events:none; animation:confetti 1.25s ease-out forwards; }
     @keyframes confetti { from { transform:translate(var(--x),var(--y)) rotate(0); opacity:1; } to { transform:translate(calc(var(--x) + var(--dx)),calc(var(--y) + 230px)) rotate(560deg); opacity:0; } }
     @keyframes ai-pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.06); } }
     @keyframes game-ready { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
     @media (max-width:760px) { .hero { margin-top:38px; } .game-board,.dashboard { grid-template-columns:1fr; } .versus { justify-self:center; margin:-3px 0; } .card { padding:23px; } .input-row { width:100%; } }
-    @media (max-width:450px) { .app { width:min(100% - 22px,1120px); } header { gap:10px; } .header-right { width:100%; justify-content:space-between; } header .live { font-size:.72rem; } .difficulty { grid-template-columns:repeat(2,1fr); } .stats { flex-direction:column; } .wizard-step .step-label { display:none; } .theme-options { flex-direction:column; align-items:center; } .theme-option { width:100%; max-width:220px; } }
+    @media (max-width:450px) { .app { width:min(100% - 22px,1120px); } header { gap:10px; } .header-right { width:100%; justify-content:space-between; } header .live { font-size:.72rem; } .difficulty { grid-template-columns:repeat(2,1fr); } .stats { flex-direction:column; } .wizard-step .step-label { display:none; } }
     @media (max-width:380px) { .input-row .primary { width:100%; } }
   </style>
 </head>
@@ -305,10 +275,8 @@
   <div class="result-overlay" id="result-overlay" aria-live="assertive"><section class="result-card"><div class="result-icon" id="result-icon">★</div><h2 id="result-title">You win!</h2><p id="result-text"></p><button class="primary" id="play-again" type="button">Play again</button></section></div>
   <div class="confirm-overlay" id="confirm-overlay" aria-live="assertive"><section class="confirm-card"><h3>Switch difficulty?</h3><p>You're mid-round — changing difficulty now will erase your current progress and start over.</p><div class="confirm-actions"><button class="ghost-button" id="confirm-cancel" type="button">Keep playing</button><button class="primary" id="confirm-proceed" type="button">Switch anyway</button></div></section></div>
   <script>
-    // ===================================================================
-    // GAME ENGINE — unchanged from the original build. Do not touch this
-    // block when adding future phases; only the UI layer below should grow.
-    // ===================================================================
+
+    // Game engine — pure logic, no DOM. Do not touch when extending the UI.
     const DIFFICULTIES = { easy:{name:"Easy",maxNumber:50,maxRounds:12,strategy:"easy"}, medium:{name:"Medium",maxNumber:100,maxRounds:10,strategy:"binary"}, hard:{name:"Hard",maxNumber:100,maxRounds:9,strategy:"human"}, expert:{name:"Expert",maxNumber:100,maxRounds:7,strategy:"expert"} };
     let currentDifficulty = null, maxNumber = 100, maxRounds = 10, roundNumber = 1, computerSecret = null, gameOver = false, playerLow = 1, playerHigh = 100, playerGuesses = [], aiLow = 1, aiHigh = 100, aiGuess = null, aiGuesses = [], lockedPlayerNumber = null, isPlayerNumberLocked = false;
     const humanFavorites = {3:2.5,7:5,13:3,21:2.5,23:2.5,27:2,37:3,42:5,50:2.5,69:5,73:3,77:3,99:2};
@@ -327,13 +295,12 @@
     function nextRound() { if(gameOver) return {success:false,message:"Game is over."}; roundNumber++; if(roundNumber>maxRounds){gameOver=true;return {success:false,draw:true,message:"Maximum rounds reached."};} aiGuess=null; return {success:true,round:roundNumber,roundsLeft:maxRounds-roundNumber+1}; }
     function getGameState() { return {difficulty:currentDifficulty?currentDifficulty.name:null,round:roundNumber,maxRounds,maxNumber,gameOver,numberLocked:isPlayerNumberLocked,player:{low:playerLow,high:playerHigh,guesses:[...playerGuesses]},ai:{low:aiLow,high:aiHigh,remaining:Math.max(0,aiHigh-aiLow+1),lastGuess:aiGuess,guesses:[...aiGuesses]}}; }
 
+    // DOM helpers & cached element lists
     const $ = (selector) => document.querySelector(selector);
     const feedbackButtons = [...document.querySelectorAll("[data-feedback]")];
     const difficultyButtons = [...document.querySelectorAll("[data-difficulty]")];
 
-    // ===================================================================
     // Sound system
-    // ===================================================================
     let audioCtx = null;
     let soundEnabled = true;
     function getAudioCtx() { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
@@ -374,14 +341,7 @@
       $("#mute-toggle").setAttribute("aria-label", enabled ? "Mute sounds" : "Unmute sounds");
     }
 
-    // ===================================================================
-    // Theme system + circular wipe transition
-    // Uses localStorage (wrapped in try/catch) to remember the choice, as
-    // requested. Note: browser storage can be unreliable inside Claude's
-    // in-chat file preview — it works normally once you download/host this
-    // file yourself, and falls back to a session-only theme here if the
-    // storage call fails.
-    // ===================================================================
+    // Theme system + circular wipe transition (defaults to OS preference, saved to localStorage)
     let currentTheme = "dark";
     function setTheme(theme) {
       currentTheme = theme;
@@ -412,6 +372,7 @@
       overlay.addEventListener("transitionend", function onExpand() {
         overlay.removeEventListener("transitionend", onExpand);
         setTheme(nextTheme);
+        saveTheme(nextTheme);
         requestAnimationFrame(() => {
           overlay.style.transition = "clip-path .55s cubic-bezier(.65,0,.35,1)";
           overlay.style.clipPath = `circle(0px at ${x}px ${y}px)`;
@@ -423,25 +384,14 @@
         });
       }, { once:true });
     }
-    function initThemeModal() {
+    function initTheme() {
       const saved = getSavedTheme();
       if (saved === "dark" || saved === "light") { setTheme(saved); return; }
-      setTheme("dark");
-      $("#theme-modal-overlay").classList.add("show");
+      const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      setTheme(prefersLight ? "light" : "dark");
     }
-    document.querySelectorAll(".theme-option").forEach(option => {
-      option.addEventListener("click", () => {
-        playClickSound();
-        const chosen = option.dataset.theme;
-        if ($("#theme-remember").checked) saveTheme(chosen);
-        $("#theme-modal-overlay").classList.remove("show");
-        playThemeTransition(option, chosen);
-      });
-    });
 
-    // ===================================================================
     // Sliding pill for the difficulty selector
-    // ===================================================================
     function moveDifficultyPill(button, animate = true) {
       const pill = $("#difficulty-pill"), group = $("#difficulty-group");
       if (!button || !pill || !group) return;
@@ -452,9 +402,7 @@
     }
     window.addEventListener("resize", () => moveDifficultyPill($(".difficulty button.active"), false));
 
-    // ===================================================================
     // Difficulty descriptions — explains exactly what changes per tier
-    // ===================================================================
     const DIFFICULTY_DETAILS = {
       easy: "Numbers 1–50, 12 rounds. The AI guesses almost at random within what it's learned — you have a big edge.",
       medium: "Numbers 1–100, 10 rounds. The AI always bisects the range perfectly (binary search) — a fair, evenly matched race.",
@@ -463,9 +411,7 @@
     };
     function updateDifficultyDesc(key) { $("#difficulty-desc").textContent = DIFFICULTY_DETAILS[key] || ""; }
 
-    // ===================================================================
     // Setup wizard: Step 1 Difficulty -> Step 2 Lock Number -> Step 3 Start
-    // ===================================================================
     let setupStep = 1;
     function renderWizardSteps() {
       [1,2,3].forEach(n => {
@@ -491,9 +437,7 @@
     });
     $("#step1-continue").addEventListener("click", () => { playClickSound(); showSetupStep(isPlayerNumberLocked ? 3 : 2); });
 
-    // ===================================================================
     // Floating background particles
-    // ===================================================================
     function initParticles() {
       const container = $("#bg-particles");
       const colors = ["rgba(87,230,255,.55)","rgba(168,132,255,.5)","rgba(116,239,173,.45)"];
@@ -511,9 +455,7 @@
       }
     }
 
-    // ===================================================================
     // Ripple feedback on every button
-    // ===================================================================
     function attachRipple(button) {
       button.addEventListener("pointerdown", (event) => {
         const rect = button.getBoundingClientRect();
@@ -528,14 +470,10 @@
       });
     }
 
-    // ===================================================================
     // Shake feedback for invalid input
-    // ===================================================================
     function shakeElement(el) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
 
-    // ===================================================================
     // AI "thinking" animation (typing dots + scan + loading bar)
-    // ===================================================================
     let thinkingDotsTimer = null;
     function startThinkingDots(el) {
       let dots = 0;
@@ -558,9 +496,7 @@
       }, 700);
     }
 
-    // ===================================================================
     // Range bar — visual number line that shrinks as guesses narrow it
-    // ===================================================================
     function updateRangeBar(fillId, low, high, max) {
       const fill = document.getElementById(fillId);
       if (!fill || max <= 1) return;
@@ -570,9 +506,7 @@
       fill.style.width = `${widthPct}%`;
     }
 
-    // ===================================================================
     // Guess history panels
-    // ===================================================================
     let playerHistory = [];
     let aiHistory = [];
     function tagFor(kind) { return kind === "correct" ? { cls:"correct", text:"Correct!" } : kind === "higher" ? { cls:"higher", text:"Higher" } : { cls:"lower", text:"Lower" }; }
@@ -593,6 +527,7 @@
       }).join("");
     }
 
+    // Core UI rendering & state (message box, live stats, full reset)
     function setMessage(text) { $("#message").textContent = text; }
     function updateUi() {
       const state = getGameState(), eliminated = Math.round((1 - state.ai.remaining / maxNumber) * 100);
@@ -635,6 +570,7 @@
     function celebrate() { const colors=["#57e6ff","#a884ff","#74efad","#ff7aa8","#ffe278"]; for(let i=0;i<46;i++){const piece=document.createElement("i");piece.className="burst";piece.style.background=colors[i%colors.length];piece.style.left="50%";piece.style.top="35%";piece.style.setProperty("--x",`${(Math.random()-.5)*160}px`);piece.style.setProperty("--y",`${(Math.random()-.5)*60}px`);piece.style.setProperty("--dx",`${(Math.random()-.5)*520}px`);document.body.append(piece);setTimeout(()=>piece.remove(),1300);} }
     function showResult(title,text,won) { const overlay=$("#result-overlay"); overlay.className=`result-overlay show ${won?"win":"loss"}`; $("#result-icon").textContent=won?"★":"!"; $("#result-title").textContent=title; $("#result-text").textContent=text; if (won) { celebrate(); playWinSound(); } else { playLoseSound(); } }
     function finish(message,won=false) { setPlaying(false); $("#status").textContent="Race complete"; setMessage(`${message} Pick a difficulty to play again.`); showResult(won?"You won!":"AI wins",message,won); }
+    // Game actions: lock secret -> start race -> take turns
     function lockSecret() {
       const setupPanel = $("#setup-panel"), secretInput = $("#secret-number"), lockButton = $("#lock-button");
       const result = lockPlayerNumber(secretInput.value);
@@ -672,14 +608,13 @@
         setMessage("Secret sealed. Hit Start Game when you're ready.");
       }, 600);
     }
-    $("#start-game-button").addEventListener("click", () => {
-      playClickSound();
+    function startRace() {
       $(".app").classList.add("playing");
       $("#status").textContent = `${currentDifficulty.name} · Round 1 / ${maxRounds}`;
       setPlaying(true);
       setMessage("Race started! Make a guess to begin.");
       $("#player-guess").focus();
-    });
+    }
     function playerTurn() {
       const result = makePlayerGuess($("#player-guess").value);
       if (!result.valid) { setMessage(result.message); shakeElement($("#player-guess")); return; }
@@ -718,14 +653,14 @@
       setMessage(`AI learned your number is ${result.direction} than ${aiGuesses.at(-1)}. Your turn for round ${next.round}.`);
       $("#player-guess").focus();
     }
+    // Input validation (digits only, clamp to current max)
     function keepDigits(event) { const input=event.target; let value=input.value.replace(/\D/g,""); if(value && Number(value)>maxNumber) value=input.dataset.lastValid || ""; input.value=value; input.dataset.lastValid=value; }
     document.querySelectorAll(".number-only").forEach(input=>{input.addEventListener("input",keepDigits);input.addEventListener("keydown",event=>{if(["e","E","+","-","."].includes(event.key))event.preventDefault();});});
 
-    // ===================================================================
     // Event bindings
-    // ===================================================================
     $("#lock-button").addEventListener("click", lockSecret);
     $("#secret-number").addEventListener("keydown", event => { if (event.key === "Enter") lockSecret(); });
+    $("#start-game-button").addEventListener("click", () => { playClickSound(); startRace(); });
     $("#guess-button").addEventListener("click", playerTurn);
     $("#player-guess").addEventListener("keydown", event => { if (event.key === "Enter") playerTurn(); });
     feedbackButtons.forEach(button => button.addEventListener("click", () => { playClickSound(); respondToAi(button.dataset.feedback); }));
@@ -749,16 +684,16 @@
       if (pendingDifficultyButton) { resetUi(pendingDifficultyButton.dataset.difficulty); moveDifficultyPill(pendingDifficultyButton); pendingDifficultyButton = null; }
     });
     $("#play-again").addEventListener("click", () => { playClickSound(); $("#result-overlay").className = "result-overlay"; resetUi(currentDifficulty ? Object.keys(DIFFICULTIES).find(key => DIFFICULTIES[key] === currentDifficulty) : "medium"); });
-    $("#theme-toggle").addEventListener("click", () => {playClickSound(); const nextTheme = currentTheme === "light" ? "dark" : "light"; saveTheme(nextTheme); playThemeTransition($("#theme-toggle"), nextTheme);});
+    $("#theme-toggle").addEventListener("click", () => { playClickSound(); playThemeTransition($("#theme-toggle"), currentTheme === "light" ? "dark" : "light"); });
     $("#mute-toggle").addEventListener("click", () => setSoundEnabled(!soundEnabled));
     document.addEventListener("keydown", event => {
       if (event.code === "Space" && $("#result-overlay").classList.contains("show")) { event.preventDefault(); $("#play-again").click(); }
     });
     document.querySelectorAll("button").forEach(attachRipple);
 
+    // Boot sequence
     initParticles();
-    const saved = getSavedTheme();
-    setTheme(saved || "dark");
+    initTheme();
     setSoundEnabled(true);
     resetUi("medium");
     moveDifficultyPill($(".difficulty button.active"), false);
