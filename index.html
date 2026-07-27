@@ -277,9 +277,11 @@
   <script>
 
     // Game engine — pure logic, no DOM. Do not touch when extending the UI.
+
+    const humanFavorites = {3:2.5,7:5,13:3,21:2.5,23:2.5,27:2,37:3,42:5,50:2.5,69:5,73:3,77:3,99:2}; //fav numbers for humans
+
     const DIFFICULTIES = { easy:{name:"Easy",maxNumber:50,maxRounds:12,strategy:"easy"}, medium:{name:"Medium",maxNumber:100,maxRounds:10,strategy:"binary"}, hard:{name:"Hard",maxNumber:100,maxRounds:9,strategy:"human"}, expert:{name:"Expert",maxNumber:100,maxRounds:7,strategy:"expert"} };
     let currentDifficulty = null, maxNumber = 100, maxRounds = 10, roundNumber = 1, computerSecret = null, gameOver = false, playerLow = 1, playerHigh = 100, playerGuesses = [], aiLow = 1, aiHigh = 100, aiGuess = null, aiGuesses = [], lockedPlayerNumber = null, isPlayerNumberLocked = false;
-    const humanFavorites = {3:2.5,7:5,13:3,21:2.5,23:2.5,27:2,37:3,42:5,50:2.5,69:5,73:3,77:3,99:2};
     function randomInt(min,max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
     function startGame(key) { const difficulty = DIFFICULTIES[key]; if (!difficulty) return {success:false,message:"Invalid difficulty."}; currentDifficulty=difficulty; maxNumber=difficulty.maxNumber; maxRounds=difficulty.maxRounds; computerSecret=randomInt(1,maxNumber); roundNumber=1; gameOver=false; playerLow=1; playerHigh=maxNumber; playerGuesses=[]; aiLow=1; aiHigh=maxNumber; aiGuess=null; aiGuesses=[]; lockedPlayerNumber=null; isPlayerNumberLocked=false; return {success:true,difficulty:difficulty.name,maxNumber,maxRounds}; }
     function lockPlayerNumber(value) { if (!currentDifficulty) return {success:false,message:"Start the game first."}; if (isPlayerNumberLocked) return {success:false,message:"Your number is already locked."}; const number=Number(value); if (!Number.isInteger(number) || number<1 || number>maxNumber) return {success:false,message:`Choose a number between 1 and ${maxNumber}.`}; lockedPlayerNumber=number; isPlayerNumberLocked=true; return {success:true,message:"Your secret number has been locked."}; }
